@@ -1,5 +1,8 @@
 import CurrencyPair from './CurrencyPair'
 
+/*
+A viewmodel to render view fir CurrencyPair model
+*/
 export default class CurrencyPairView {
   constructor(data) {
     this.currencyPair = new CurrencyPair(data);

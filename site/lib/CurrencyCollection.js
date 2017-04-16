@@ -1,10 +1,13 @@
 import CurrencyPairView from './CurrencyPairView'
 
 /*
-* Takes an interval (in seconds) to fire all listeners on sparkline
-* every `interval` seconds
+* Represents a sorted list of CurrencyPair collection
+* which can be subscribed for getting updates when data changes
 */
 export default class CurrencyCollection {
+  /*
+  * @param {number} interval - The number of milliseconds at which sparkline listeners will be fired.
+  */
   constructor(interval = null) {
     this.list = []
     this.presentPairs = {}

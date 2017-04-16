@@ -1,3 +1,6 @@
+/*
+* The model to represent currency data
+*/
 export default class CurrencyPair {
   constructor(data) {
     this._history = []
