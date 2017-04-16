@@ -9,6 +9,8 @@ require('./site/index.html')
 // Apply the styles in style.css to the page.
 require('./site/style.css')
 
+const TableView = require('./lib/TableView').default;
+
 // Change this to get detailed logging from the stomp library
 global.DEBUG = false
 
@@ -19,12 +21,16 @@ client.debug = function(msg) {
     console.info(msg)
   }
 }
+const tableView = new TableView(client);
+
+const statusNode = document.getElementById('stomp-status');
 
 function connectCallback() {
-  document.getElementById('stomp-status').innerHTML = "It has now successfully connected to a stomp server serving price updates for some foreign exchange currency pairs."
+  statusNode.innerHTML = "It has now successfully connected to a stomp server serving price updates for some foreign exchange currency pairs."
+  tableView.subscribe();
 }
 
 client.connect({}, connectCallback, function(error) {
-  alert(error.headers.message)
+  statusNode.innerHTML = 'Connection terminated.'
 })
 
