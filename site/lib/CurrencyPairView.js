@@ -17,6 +17,7 @@ export default class CurrencyPairView {
   */
   getNode() {
     if (this._node) {
+      this._tdName.textContent = this.currencyPair.name
       this._tdBestBid.textContent = this.currencyPair.bestBid
       this._tdBestAsk.textContent = this.currencyPair.bestAsk
       this._tdLastChangeBestBid.textContent = this.currencyPair.lastChangeBid
@@ -47,6 +48,7 @@ export default class CurrencyPairView {
     tr.appendChild(tdSparkline)
 
     this._node = tr
+    this._tdName = tdName
     this._tdBestBid = tdBestBid
     this._tdBestAsk = tdBestAsk
     this._tdLastChangeBestBid = tdLastChangeBestBid

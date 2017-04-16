@@ -1,6 +1,13 @@
 import CurrencyCollection from './CurrencyCollection'
 
+/** Class representing the table data view. */
 export default class TableView {
+  /**
+   * Create a point.
+   * @param {StompClient} client - The stomp client connected to stomp server.
+   * @param {string} channel - The channel to subscribe to for receiving realtime price updates.
+   * @param {Node} containerNode - The DOM Node to which the table data will be rendered on every update.
+   */
   constructor(client, channel, containerNode) {
     this.client = client
     this.channel = channel

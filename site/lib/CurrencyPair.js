@@ -18,6 +18,9 @@ export default class CurrencyPair {
     this._history.push([data.bestBid, data.bestAsk])
   }
 
+  /*
+  * @return {Array} An array of midprice history.
+  */
   getSparkLineData() {
     const data = this._history.map(item => {
       return (item[0] + item[1]) / 2

@@ -1,7 +1,11 @@
 import CurrencyPairView from './CurrencyPairView'
 
+/*
+* Takes an interval (in seconds) to fire all listeners on sparkline
+* every `interval` seconds
+*/
 export default class CurrencyCollection {
-  constructor(interval) {
+  constructor(interval = null) {
     this.list = []
     this.presentPairs = {}
 
@@ -14,7 +18,11 @@ export default class CurrencyCollection {
     this.fire = this.fire.bind(this)
     this.fireSparkLine = this.fireSparkLine.bind(this)
 
-    this._sparkLineIntervalID = setInterval(this.fireSparkLine, interval)
+    if (interval !== null) {
+      this._sparkLineIntervalID = setInterval(this.fireSparkLine, interval)
+    } else {
+      this._sparkLineIntervalID = null
+    }
   }
 
   /* Sort array based on `lastChangeBid` in increasing order */

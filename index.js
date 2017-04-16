@@ -23,8 +23,6 @@ client.debug = function(msg) {
 }
 const tableView = new TableView(client, '/fx/prices', document.getElementsByTagName('tbody')[0])
 
-window.tableView = tableView
-
 const statusNode = document.getElementById('stomp-status')
 
 function connectCallback() {
