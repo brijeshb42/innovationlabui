@@ -49,3 +49,10 @@ td:nth-child(1) {
 .currency-table {
     width: 100%;
 }
+
+.currency-pair-name {
+    text-transform: uppercase;
+}
+.currency-sparkline {
+    text-align: center;
+}

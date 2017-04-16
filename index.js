@@ -29,7 +29,7 @@ const statusNode = document.getElementById('stomp-status')
 
 function connectCallback() {
   statusNode.innerHTML = "It has now successfully connected to a stomp server serving price updates for some foreign exchange currency pairs."
-  tableView.subscribe()
+  tableView.init()
 }
 
 client.connect({}, connectCallback, function(error) {
