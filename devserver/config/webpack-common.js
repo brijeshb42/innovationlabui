@@ -10,7 +10,7 @@ module.exports = function(entries, output, includes) {
       presets: ['babel-preset-es2015', "babel-preset-stage-1"].map(require.resolve),
       cacheDirectory: true
     },
-    include: includes
+    // include: includes
   }
 
   return {
