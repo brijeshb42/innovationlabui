@@ -1,21 +1,18 @@
-import CurrencyPair from './CurrencyPair'
+// import CurrencyPair from './CurrencyPair'
+import CurrencyCollection from './CurrencyCollection'
 
 export default class TableView {
   constructor(client, channel, containerNode) {
     this.client = client
     this.channel = channel
     this.containerNode = containerNode
-    this.dataHasChanged = true
 
-    this.currencyPairs = []
-    this.presentPairs = {}
+    this.currencyCollection = new CurrencyCollection(30 * 1000)
 
     this.onNewData = this.onNewData.bind(this)
-    this.updateData = this.updateData.bind(this)
     this.subscribe = this.subscribe.bind(this)
     this.unsubscribe = this.unsubscribe.bind(this)
     this.render = this.render.bind(this)
-    this.drawSparkline = this.drawSparkline.bind(this)
     this.init = this.init.bind(this)
   }
 
@@ -24,72 +21,50 @@ export default class TableView {
   */
   onNewData(e) {
     const data = JSON.parse(e.body)
-    this.updateData(data)
-  }
-
-  /* Sort array based on `lastChangeBid` in increasing order */
-  sorter(pair1, pair2) {
-    return pair1.lastChangeBid - pair2.lastChangeBid
-  }
-
-  /*
-  * If the received currency is already present, only update
-  * its data, otherwise, create new CurrencyPair and add it to
-  * sortable array. This array will be used to render the rows
-  * of the table on every new data update.
-  */
-  updateData(data) {
-    if (this.presentPairs.hasOwnProperty(data.name)) {
-      this.presentPairs[data.name].resetData(data)
-    } else {
-      this.presentPairs[data.name] = new CurrencyPair(data)
-      this.currencyPairs.push(this.presentPairs[data.name])
-    }
-    this.currencyPairs.sort(this.sorter)
-    this.dataHasChanged = true
+    this.currencyCollection.updateData(data)
   }
 
   /* Subscribe to the prices channel */
   subscribe() {
     this.subscriptionID = this.client.subscribe(this.channel, this.onNewData)
+    this.currencyCollection.subscribe(this.render)
+    this.currencyCollection.subscribeToSparkLineEvent(this.drawSparkLine)
   }
 
+  /*
+  * Unsubscribe from stomp and currency collection
+  */
   unsubscribe() {
     this.client.unsubscribe(this.subscriptionID)
-    clearInterval(this._sparkLineIntervalID)
+    this.currencyCollection.unsubscribe(this.render)
+    this.currencyCollection.unsubscribeFromSparkLineEvent(this.drawSparkLine)
   }
 
   /*
   * Render the CurrencyPair model list to table rows view
   */
-  render() {
-    if (!this.dataHasChanged) {
-      this._frameID = requestAnimationFrame(this.render)
-      return
-    }
+  render(currencyList) {
     const node = this.containerNode
     while (node.firstChild) {
       node.removeChild(node.firstChild)
     }
-    this.currencyPairs.forEach(pair => {
+    currencyList.forEach(pair => {
       node.appendChild(pair.getNode())
     })
-    this.dataHasChanged = false
-    this._frameID = requestAnimationFrame(this.render)
   }
 
   /*
   * Trigger sparkline draw for each currency pair in array.
   */
-  drawSparkline() {
-    this.currencyPairs.forEach(pair => {
+  drawSparkLine(currencyList) {
+    currencyList.forEach(pair => {
       pair.drawSparkLine()
     })
   }
 
   init() {
     this.subscribe()
-    this._frameID = requestAnimationFrame(this.render)
-    this._sparkLineIntervalID = setInterval(this.drawSparkline, 30 * 1000)
+    // this._frameID = requestAnimationFrame(this.render)
+    // this._sparkLineIntervalID = setInterval(this.drawSparkline, 30 * 1000)
   }
 }
