@@ -21,7 +21,7 @@ client.debug = function(msg) {
     console.info(msg)
   }
 }
-const tableView = new TableView(client, '/fx/prices')
+const tableView = new TableView(client, '/fx/prices', document.getElementsByTagName('tbody')[0])
 
 window.tableView = tableView
 
