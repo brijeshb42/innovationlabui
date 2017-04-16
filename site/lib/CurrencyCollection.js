@@ -1,4 +1,4 @@
-import CurrencyPair from './CurrencyPair'
+import CurrencyPairView from './CurrencyPairView'
 
 export default class CurrencyCollection {
   constructor(interval) {
@@ -19,7 +19,7 @@ export default class CurrencyCollection {
 
   /* Sort array based on `lastChangeBid` in increasing order */
   sorter(pair1, pair2) {
-    return pair1.lastChangeBid - pair2.lastChangeBid
+    return pair1.currencyPair.lastChangeBid - pair2.currencyPair.lastChangeBid
   }
 
   /*
@@ -32,7 +32,7 @@ export default class CurrencyCollection {
     if (this.presentPairs.hasOwnProperty(data.name)) {
       this.presentPairs[data.name].resetData(data)
     } else {
-      this.presentPairs[data.name] = new CurrencyPair(data)
+      this.presentPairs[data.name] = new CurrencyPairView(data)
       this.list.push(this.presentPairs[data.name])
     }
     this.list.sort(this.sorter)

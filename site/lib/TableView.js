@@ -1,4 +1,3 @@
-// import CurrencyPair from './CurrencyPair'
 import CurrencyCollection from './CurrencyCollection'
 
 export default class TableView {
@@ -64,7 +63,5 @@ export default class TableView {
 
   init() {
     this.subscribe()
-    // this._frameID = requestAnimationFrame(this.render)
-    // this._sparkLineIntervalID = setInterval(this.drawSparkline, 30 * 1000)
   }
 }
