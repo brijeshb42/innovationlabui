@@ -1,4 +1,4 @@
-import CurrencyPairView from './CurrencyPairView'
+import CurrencyPairView from '../view/CurrencyPairView'
 
 /*
 * Represents a sorted list of CurrencyPair collection

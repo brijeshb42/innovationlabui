@@ -1,6 +1,6 @@
 import expect from 'expect'
 
-import data from './testdata';
+import data from '../testdata';
 
 import CurrencyPairView from './CurrencyPairView'
 

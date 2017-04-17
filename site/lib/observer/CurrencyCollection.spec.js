@@ -1,6 +1,6 @@
 import expect from 'expect'
 
-import data, { getRandomData } from './testdata';
+import data, { getRandomData } from '../testdata';
 
 import CurrencyCollection from './CurrencyCollection';
 

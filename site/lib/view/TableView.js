@@ -1,4 +1,4 @@
-import CurrencyCollection from './CurrencyCollection'
+import CurrencyCollection from '../observer/CurrencyCollection'
 
 /** Class representing the table data view. */
 export default class TableView {
@@ -12,6 +12,7 @@ export default class TableView {
     this.client = client
     this.channel = channel
     this.containerNode = containerNode
+    this._firstSparklineRendered = false
 
     this.currencyCollection = new CurrencyCollection(30 * 1000)
 
@@ -34,6 +35,7 @@ export default class TableView {
   subscribe() {
     this.subscriptionID = this.client.subscribe(this.channel, this.onNewData)
     this.currencyCollection.subscribe(this.render)
+    this.currencyCollection.subscribe(this.drawInitialSparkLine)
     this.currencyCollection.subscribeToSparkLineEvent(this.drawSparkLine)
   }
 
@@ -43,6 +45,7 @@ export default class TableView {
   unsubscribe() {
     this.client.unsubscribe(this.subscriptionID)
     this.currencyCollection.unsubscribe(this.render)
+    this.currencyCollection.unsubscribe(this.drawInitialSparkLine)
     this.currencyCollection.unsubscribeFromSparkLineEvent(this.drawSparkLine)
   }
 
@@ -57,6 +60,9 @@ export default class TableView {
     currencyList.forEach(pair => {
       node.appendChild(pair.getNode())
     })
+    if (!this._firstSparklineRendered) {
+      this._firstSparklineRendered = true
+    }
   }
 
   /*
@@ -65,6 +71,15 @@ export default class TableView {
   drawSparkLine(currencyList) {
     currencyList.forEach(pair => {
       pair.drawSparkLine()
+    })
+  }
+
+  /*
+  * Draw initial sparkline when first set of data comes
+  */
+  drawInitialSparkLine(currencyList) {
+    currencyList.forEach(pair => {
+      pair.drawInitialSparkLine()
     })
   }
 

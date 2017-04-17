@@ -1,7 +1,8 @@
-import CurrencyPair from './CurrencyPair'
+import CurrencyPair from '../model/CurrencyPair'
 
 /*
-A viewmodel to render view fir CurrencyPair model
+* A view to render CurrencyPair model.
+* A single view represents a single row in the table.
 */
 export default class CurrencyPairView {
   constructor(data) {
@@ -9,10 +10,11 @@ export default class CurrencyPairView {
 
     this._node = null
     this._sparkLine = null
+    this.initialSparklineRendered = false
   }
 
   resetData(data) {
-    this.currencyPair.resetData(data);
+    this.currencyPair.resetData(data)
   }
 
   /*
@@ -71,5 +73,17 @@ export default class CurrencyPairView {
     }
     this._sparkLine.draw(data)
     this.currencyPair.resetHistory()
+  }
+
+  drawInitialSparkLine() {
+    if (this.initialSparklineRendered) {
+      return
+    }
+    this.initialSparklineRendered = true
+    const data = this.currencyPair.getSparkLineData()
+    if (!this._sparkLine) {
+      this._sparkLine = new Sparkline(this._sparks)
+    }
+    this._sparkLine.draw(data)
   }
 }

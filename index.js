@@ -9,7 +9,7 @@ require('./site/index.html')
 // Apply the styles in style.css to the page.
 require('./site/style.css')
 
-const TableView = require('./site/lib/TableView').default
+const TableView = require('./site/lib/view/TableView').default
 
 // Change this to get detailed logging from the stomp library
 global.DEBUG = false
