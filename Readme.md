@@ -30,5 +30,5 @@ All the new files have been added in `site/lib` directory.
     * subscribing to the `/fx/prices` channel to get updates
     * render the table data on every update received
     * render the sparkline every 30 seconds from the history of updates
-    * first sparklines are generated on 30s after the first data received.
+    * first sparkline is generated when first data comes for each of the currency pair. Then it refreshes every 30 seconds as stated above.
 * Tests have been written for all files except `TableView`
